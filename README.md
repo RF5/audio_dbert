@@ -16,7 +16,7 @@ Concretely, here are the versions of pytorch and cuda toolkit (as conda packages
 Other packages are much simpler and should be installed automatically during package installation.
 
 ## Trained model weights
-The trained weights are available as a github release on this repository. Namely, [TODO link] provides the checkpoint for the trained model that should work with the `load_model` function.
+The trained weights are available as a github release on this repository. Namely, [this link](https://github.com/RF5/audio_dbert/releases/download/v0.5/e105-2_checkpoint_4_920000_Diter184001.pt) provides the checkpoint for the trained model that should work with the `load_model` function.
 
 ## A note on very long audio samples
 To fulfill the 16GB memory limit for audio samples up to 20min, inference is chunked into `m_chunk` minute segments and then combined. From internal testing, chunking at 4 minutes seems to keep the memory to within 16GB for 20 min audio and a batch size of 1. If for some reason you are exceeding this, please lower the `m_chunk` optional argument for `get_timestamp_embeddings` and `get_scene_embeddings` -- this is the number of minutes to chunk the audio into when doing inference, currently set at a default of 4.
