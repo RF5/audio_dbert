@@ -4,7 +4,7 @@ In short, the model uses a modified BERT transformer and CNN encoder (like wav2v
 Training is performed as a GAN -- with the main BERT audio encoder acting as the discriminator model, and several clustering models (not used during inference) acting as the generator model.
 
 ## Installation
-The package is installed with `python -m pip install <this repo path>` . 
+The package is installed with `python -m pip install git+https://github.com/RF5/audio_dbert.git` . 
 
 If that does not work out of the box, it might mean that you don't have the right cuda drivers of some kind of another.
 If CUDA and cuDNN versions are giving one problems, then consider installing pytorch and associated CUDA drivers seperately.
