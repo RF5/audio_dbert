@@ -15,6 +15,7 @@ import omegaconf
 # for all the PUBLIC tasks takes 3h40m
 
 def load_model(model_file_path: str, layer=16) -> nn.Module:
+    if layer == -1: layer = None
     ckpt = torch.load(model_file_path, map_location='cpu')
     model = DBERTWrapped(ckpt, layer=layer)
     model.DBERT.remove_weight_norm()
@@ -89,7 +90,7 @@ def samples2seqlen(samples, sr):
     assert len(timestamps) == ntimestamps
     return timestamps, audio_ms
 
-def get_timestamp_embeddings(audio: Tensor, model: DBERTWrapped, m_chunk=4, fp16=False) -> Tuple[Tensor, Tensor]:
+def get_timestamp_embeddings(audio: Tensor, model: DBERTWrapped, m_chunk=3, fp16=False) -> Tuple[Tensor, Tensor]:
     """ `audio` is (bs, seq_len) in range [-1, 1] """
     if audio.shape[-1] > model.sample_rate*60*m_chunk:
         print(f"Warning: audio longer than {m_chunk} minutes found. Doing inference in chunks.")
@@ -117,7 +118,7 @@ def get_timestamp_embeddings(audio: Tensor, model: DBERTWrapped, m_chunk=4, fp16
     assert timestamps.shape[1] == features.shape[1]
     return features, timestamps
 
-def get_scene_embeddings(audio: Tensor, model: DBERTWrapped, m_chunk=4, fp16=False) -> Tensor:
+def get_scene_embeddings(audio: Tensor, model: DBERTWrapped, m_chunk=3, fp16=False) -> Tensor:
     if audio.shape[-1] > model.sample_rate*60*m_chunk:
         print(f"Warning: audio longer than {m_chunk} minutes found. Doing inference in chunks.")
         n_chunks = 1 + (audio.shape[-1] // (model.sample_rate*60*m_chunk))
